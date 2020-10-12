@@ -64,9 +64,7 @@ class TasksController extends Controller
         }
         
         $tasks = [];
-        return view('tasks.index', [
-            'tasks' => $tasks,    
-        ]);
+        return redirect('/');
     }
 
     /**
@@ -82,6 +80,9 @@ class TasksController extends Controller
             'content' => 'required|max:255',
         ]);
         
+        // dd(($request->user()->id))
+        // dd(\Auth::id())
+        
         /*
         $task = new Task;
         $task->status = $request->status;
@@ -89,10 +90,12 @@ class TasksController extends Controller
         $task->save();
         */
         
-        $request->user()->tasks()->create([
-            'status' => $request->status,
-            'content' => $request->content,
-        ]);
+        if (\Auth::id() === $request->user()->id) {
+            $request->user()->tasks()->create([
+                'status' => $request->status,
+                'content' => $request->content,
+            ]);
+        }
 
         return redirect('/');
     }
@@ -114,9 +117,7 @@ class TasksController extends Controller
         }
         
         $tasks = [];
-        return view('tasks.index', [
-            'tasks' => $tasks    
-        ]);
+        return redirect('/');
     }
 
     /**
@@ -136,9 +137,7 @@ class TasksController extends Controller
         }
         
         $tasks = [];
-        return view('tasks.index', [
-            'tasks' => $tasks    
-        ]);
+        return redirect('/');
     }
 
     /**
